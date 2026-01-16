@@ -1,0 +1,13 @@
+
+.gitignor
+.env
+application/config/database.php
+components/includes/integration/integration_config.php
+application/logs/*
+system/cache/*
+# vendor/
+upload/
+temp_upload/
+# config.php
+db_test.php
+test.php
