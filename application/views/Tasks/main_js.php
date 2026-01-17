@@ -4602,6 +4602,86 @@
         });
     }
 
+    function re_analyse_bank_statement(lead_id) {
+
+        $.ajax({
+            url: '<?= base_url("analyse-bank-statement/") ?>' + lead_id,
+            type: 'POST',
+            dataType: "json",
+            data: {
+                csrf_token
+            },
+            beforeSend: function() {
+
+                $('#analyse_bank_statement').html('<span class="spinner-border spinner-border-sm mr-2" role="status"></span>Processing...').prop('disabled', true);
+            },
+            success: function(response) {
+
+                if (response.errSession) {
+
+                    window.location.href = "<?= base_url() ?>";
+                } else if (response.success_msg) {
+
+                    catchSuccess(response.success_msg);
+                    $('#api_download_bank_statement').html('Download Cart API Data').prop('disabled', true);
+                    getDataBankingAnalysis("<?= $this->encrypt->encode($leadDetails->lead_id) ?>");
+
+
+                    var i = 30;
+                    var timer = '';
+
+                    (function timer() {
+                        if (--i < 0)
+                            return;
+                        setTimeout(function() {
+                            if (i == 0) {
+
+                                $('#div_bank_statement_analysis').html('<button class="btn btn-info" id="api_download_bank_statement" onclick="api_download_bank_statement(&quot;' + lead_id + '&quot;)">Download Cart API Data</button>').prop('disabled', false);
+                            } else {
+                                $('#div_bank_statement_analysis').html('<div class="alert alert-success" role="alert">Please wait for a moment to call api download...<strong> ' + i + ' Secs </strong></div>').prop('disabled', true);
+                                timer = i;
+                                timer();
+                            }
+                        }, 1000);
+                    })();
+                } else {
+
+                    catchError(response.error_msg);
+                }
+            },
+            complete: function() {
+
+                $('#analyse_bank_statement').html('Anasyse Bank Statement').prop('disabled', false);
+            }
+        });
+    }
+
+    function viewAnalysedBankingList(lead_id) {
+        $.ajax({
+            url: '<?= base_url("view-analysis-banking-list/") ?>' + lead_id,
+            type: 'POST',
+            dataType: "json",
+            data: {
+                csrf_token
+            },
+            beforeSend: function() {
+                $("#cover").show();
+            },
+            success: function(response) {
+                if (response.errSession) {
+                    window.location.href = "<?= base_url() ?>";
+                } else if (response.success_msg) {
+                    $('#viewBankingAnalysisApiData').html(response.success_msg);
+                } else {
+                    catchError(response.error_msg);
+                }
+            },
+            complete: function() {
+                $("#cover").fadeOut(1750)
+            }
+        });
+    }
+
     function ocr_verification_api_call(lead_id, ocr_verification_type) {
         if (ocr_verification_type == 1) {
             if ($('#aadhaarOcrVerification').prop('checked', true)) {
