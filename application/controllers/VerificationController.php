@@ -16,6 +16,7 @@ class VerificationController extends CI_Controller {
         parent::__construct();
         $this->load->model('Leadmod', 'Leads');
         $this->load->model('Task_Model', 'Tasks');
+        $this->load->model('Verification_Model', 'Verification');
 
         date_default_timezone_set('Asia/Kolkata');
         $timestamp = date("Y-m-d H:i:s");
@@ -758,6 +759,33 @@ class VerificationController extends CI_Controller {
                 $responseArray['success_msg'] = $result['data'];
             } else if (!empty($result['success_msg'])) {
                 $responseArray['success_msg'] = $result['success_msg'];
+            } else {
+                $responseArray['error_msg'] = $result['error_msg'];
+            }
+        } else {
+            $responseArray['error_msg'] = "Invalid request. Please Try Again.";
+        }
+
+        echo json_encode($responseArray);
+    }
+
+    public function view_analysis_banking_list($leadID) {
+        $lead_id = intval($this->encrypt->decode($leadID));
+        $responseArray = array("errSession" => "", "success_msg" => 0, "error_msg" => "");
+
+        if (empty($_SESSION['isUserSession']['user_id'])) {
+            $responseArray['errSession'] = "Session Expired. try again.";
+            echo json_encode($responseArray);
+        }
+
+        if (!empty($lead_id)) {
+
+            $result = $this->Verification->view_analysis_banking_list($lead_id);
+
+            traceObject($result); exit;
+
+            if (!empty($result)) {
+                $responseArray['success_msg'] = $result['data'];
             } else {
                 $responseArray['error_msg'] = $result['error_msg'];
             }

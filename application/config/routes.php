@@ -314,6 +314,7 @@ $route['SendRepayLinkMail/(:any)'] = 'DisbursalController/SendRepayLinkMail/$1';
 $route['analyse-bank-statement/(:any)'] = "ThirdPartyAPIController/analyse_bank_statement_api_call/$1";
 $route['api-download-bank-statement/(:any)'] = "ThirdPartyAPIController/analyse_bank_statement_download_api_call/$1";
 $route['get-Banking-Analysis-Data/(:any)'] = "VerificationController/get_Banking_Analysis_Data/$1";
+$route['view-analysis-banking-list/(:any)'] = "VerificationController/view_analysis_banking_list/$1";
 $route['get-Banking-Account-Aggregator/(:any)'] = "VerificationController/get_Banking_Account_Aggregator/$1";
 $route['verify_account_aggregator_consent/(:any)'] = "VerificationController/verify_account_aggregator_consent/$1";
 $route['send_account_aggregator_url/(:any)'] = "VerificationController/send_account_aggregator_url/$1";

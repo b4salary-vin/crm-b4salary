@@ -42,13 +42,13 @@ if ($leadDetails->stage == "S5" || $leadDetails->stage == "S6" || $leadDetails->
 <div id="BANKANALYSIS" class="collapse">
     <div id="div_bank_statement_analysis">
         <?php if (((agent == 'CR2' && !empty($leadDetails->lead_credit_assign_user_id) && $leadDetails->lead_credit_assign_user_id == user_id) || agent == "CA") && in_array($leadDetails->lead_status_id, array(5, 6, 11)) && empty($leadDetails->lead_stp_flag)) { ?>
+        <div>
             <button class="btn btn-info" id="analyse_bank_statement" onclick="analyse_bank_statement('<?= $this->encrypt->encode($leadDetails->lead_id) ?>')">Analyse Bank Statement</button>
             <?php if (user_id == 37) { ?>
-            &nbsp;<div id="bsv_status_button">
                 <input type="checkbox" class="checkbox_bsv" id="checkbox_bsv" name="checkbox_bsv" onclick="re_analyse_bank_statement('<?= $this->encrypt->encode($leadDetails->lead_id) ?>', 1)" autocomplete="off">
-            </div>
-            &nbsp;<div id="bsv_status_message">Click to analyse customer bank statement.</div>
+                <span id="bsv_status_message"></span>
             <?php } ?>
+        </div>
         <?php } ?>
     </div>
     <div id="viewAnalysedBankingList"></div>

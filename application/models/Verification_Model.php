@@ -72,4 +72,20 @@ class Verification_Model extends CI_Model {
         // return $finbox_banking_data_result;
 
     }
+    public function view_analysis_banking_list($lead_id) {
+        $data = array();
+        if (!empty($lead_id)) {
+            $sql = "SELECT ALCL.cart_log_id, ALCL.cart_lead_id, ALCL.cart_doc_id, ALCL.cart_return_novel_doc_id,
+                ALCL.cart_request, ALCL.cart_response, ALCL.cart_request_datetime, ALCL.cart_response_datetime,
+                D.docs_id uploaded_docs_id
+                FROM api_banking_cart_log ALCL
+                INNER JOIN docs D ON D.lead_id = ALCL.cart_lead_id
+                WHERE ALCL.cart_lead_id='$lead_id' and ALCL.cart_method_id = 2 ORDER BY ALCL.cart_log_id DESC";
+            $query = $this->db->query($sql);
+            if (!empty($query)) {
+                $data = $query->result();
+            }
+        }
+        return $data;
+    }
 }
