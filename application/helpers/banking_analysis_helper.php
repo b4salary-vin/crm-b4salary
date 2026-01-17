@@ -25,9 +25,11 @@ if (!function_exists('get_Banking_Analysis_Response_Data')) {
             $response_data_array = json_decode($nobel_response_data_json, true);
 
             if ($response_data_array['status'] == 'Submitted') {
-                $responseArray['success_msg'] = "Transaction is processed but Final Summary output is not available for View.";
+                $responseArray['success_msg'] = "Transaction is processed but Final Summary output is not available for View.".
+                    "<br>API response data: ". $api_data->nobel_response_data;
             } else if ($response_data_array['status'] == 'In Progress') {
-                $responseArray['success_msg'] = "Transaction is uploaded and is In process. Not available for view at this stage.";
+                $responseArray['success_msg'] = "Transaction is uploaded and is In process. Not available for view at this stage.".
+                    "<br>API response data: ". $api_data->nobel_response_data;
             } else if ($response_data_array['status'] == 'Deleted') {
                 $responseArray['success_msg'] = "Transaction was deleted";
             } else if (in_array(strtolower($response_data_array['status']), ['downloaded', 'processed'])) { // && strpos(strtolower($response_data_array['message']), 'fraud') === false
