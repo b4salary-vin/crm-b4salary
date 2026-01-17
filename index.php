@@ -1,5 +1,4 @@
 <?php
-echo 1;
 include_once "config.php";
 switch (ENVIRONMENT) 
 {
